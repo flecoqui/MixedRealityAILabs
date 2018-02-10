@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <UnityWSASolutionName>MR_Translation</UnityWSASolutionName>
+        <UnityWSASolutionDir>D:\git\flecoqui\MixedRealityAI\Lab1\MR_SpeechTranslation\App\</UnityWSASolutionDir>
+        <UnityProjectDir>D:\git\flecoqui\MixedRealityAI\Lab1\MR_SpeechTranslation\</UnityProjectDir>
+        <UnityWSAPlayerDir>C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\</UnityWSAPlayerDir>
+        <UnityWSAToolsDir>$(UnityWSASolutionDir)Unity\Tools\</UnityWSAToolsDir>
+    </PropertyGroup>
+</Project>
