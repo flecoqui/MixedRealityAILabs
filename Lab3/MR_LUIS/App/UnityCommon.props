@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <UnityWSASolutionName>MR_LUIS</UnityWSASolutionName>
+        <UnityWSASolutionDir>D:\git\flecoqui\MixedRealityAILabs\Lab3\MR_LUIS\App\</UnityWSASolutionDir>
+        <UnityProjectDir>D:\git\flecoqui\MixedRealityAILabs\Lab3\MR_LUIS\</UnityProjectDir>
+        <UnityWSAPlayerDir>C:\Program Files\Unity2017.2.1p2\Editor\Data\PlaybackEngines\MetroSupport\</UnityWSAPlayerDir>
+        <UnityWSAToolsDir>$(UnityWSASolutionDir)Unity\Tools\</UnityWSAToolsDir>
+    </PropertyGroup>
+</Project>
