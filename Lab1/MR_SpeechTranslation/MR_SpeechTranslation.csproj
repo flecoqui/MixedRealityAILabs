@@ -223,6 +223,7 @@
     <Compile Include="Assets\Scripts\SpeechToText\SpeechToTextMainStream.cs" />
     <Compile Include="Assets\Scripts\SpeechToText\SpeechToTextResponse.cs" />
     <Compile Include="Assets\Scripts\SpeechToText\SystemInformation.cs" />
+    <Compile Include="Assets\Scripts\TextToSpeech.cs" />
     <Compile Include="Assets\Scripts\Translator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

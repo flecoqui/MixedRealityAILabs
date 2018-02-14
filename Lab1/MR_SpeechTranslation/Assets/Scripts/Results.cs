@@ -7,12 +7,16 @@ public class Results : MonoBehaviour {
     public static Results instance;
     [HideInInspector] public string azureResponsecode;
     [HideInInspector] public string translationResult;
+    [HideInInspector] public string translationLanguageResult;
     [HideInInspector] public string dictationResult;
+    [HideInInspector] public string dictationLanguageResult;
     [HideInInspector] public string micStatus;
 
     public Text azureResponseText;
     public Text translationResultText;
+    public Text translationLanguageResultText;
     public Text dictationText;
+    public Text dictationLanguageText;
     public Text microphoneStatusText;
 
     private void Awake()
@@ -34,18 +38,26 @@ public class Results : MonoBehaviour {
     {
         translationResult = Result;
         translationResultText.text = translationResult;
+        if (!string.IsNullOrEmpty(Result) && (Result != "??"))
+        {
+            // launch the Text To Speech
+            StartCoroutine(TextToSpeech.instance.TextToSpeechWithUnityNetworking(Result, translationLanguageResult));
+        }
     }
     public void SetMicrophoneStatus(string Result)
     {
         micStatus = Result;
         microphoneStatusText.text = micStatus;
     }
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void SetDictationLanguageResult(string Result)
+    {
+        dictationLanguageResult = Result;
+        dictationLanguageText.text = dictationLanguageResult;
+    }
+    public void SetTranslatedLanguageResult(string Result)
+    {
+        translationLanguageResult = Result;
+        translationLanguageResultText.text = translationLanguageResult;
+
+    }
 }

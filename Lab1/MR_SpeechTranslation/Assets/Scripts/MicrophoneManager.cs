@@ -9,7 +9,7 @@ public class MicrophoneManager : MonoBehaviour {
 
 
     public static MicrophoneManager instance;
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
     SpeechToTextClient client;
     ulong maxSize = 3840000;
     System.UInt16 level = 300;
@@ -28,7 +28,7 @@ public class MicrophoneManager : MonoBehaviour {
     private void Awake()
     {
         instance = this;
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
         // Create Cognitive Service SpeechToText Client
         client = new SpeechToTextClient();
 #endif
@@ -42,7 +42,7 @@ public class MicrophoneManager : MonoBehaviour {
 
     }
     public
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
     async
 #endif
     void PrepareCapturingAudio()
@@ -51,7 +51,7 @@ public class MicrophoneManager : MonoBehaviour {
         if (Microphone.devices.Length > 0)
         {
             Results.instance.SetMicrophoneStatus("Initializing...");
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
 
             client.SetAPI("speech.platform.bing.com", (string)"detailed");
             //string s = await client.GetToken("05fd1c63460b41968412723e6b7bb2ce");
@@ -74,7 +74,7 @@ public class MicrophoneManager : MonoBehaviour {
     }
 
     public
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
         async
 #endif
         void StartCapturingAudio()
@@ -88,7 +88,7 @@ public class MicrophoneManager : MonoBehaviour {
             audioSource.Play();
 
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
             if ((!client.HasToken()) && (!string.IsNullOrEmpty("05fd1c63460b41968412723e6b7bb2ce")))
             {
                 Debug.Log("Getting Token for subscription key: " + "05fd1c63460b41968412723e6b7bb2ce");
@@ -141,9 +141,11 @@ public class MicrophoneManager : MonoBehaviour {
 #endif
 
             Results.instance.SetMicrophoneStatus("Capturing...");
+            Results.instance.SetDictationLanguageResult("en");
+            Results.instance.SetTranslatedLanguageResult("it");
         }
     }
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
     private async void Client_AudioCaptureError(object sender, string message)
     {
         Debug.Log("Audio Capture Error: " + message);
@@ -204,7 +206,7 @@ public class MicrophoneManager : MonoBehaviour {
     }
 #endif
     public
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
         async
 #endif
         void StopCapturingAudio()
@@ -212,7 +214,7 @@ public class MicrophoneManager : MonoBehaviour {
         Debug.Log("Stop Capturing Audio");
         Results.instance.SetMicrophoneStatus("Microphone sleeping");
         isCapturingAudio = false;
-#if WINDOWS_UWP
+#if WINDOWS_UWP_FAKE
         await client.StopRecording();
 #else
         Microphone.End(null);
@@ -226,7 +228,8 @@ public class MicrophoneManager : MonoBehaviour {
     private void DictationRecognizer_DictationResult(string text, ConfidenceLevel confidense)
     {
         Results.instance.SetDictationResult(text);
-        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text));
+
+        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text, Results.instance.dictationLanguageResult, Results.instance.translationLanguageResult));
     }
 
     private void DictationRecognizer_DictationComplete(DictationCompletionCause cause)
@@ -261,7 +264,7 @@ public class MicrophoneManager : MonoBehaviour {
 
         // Currently unused
         Debug.Log("Dictation Hypothesis: " + text);
-        Debug.Log("Dictation Start");
+
         
 
     }
@@ -273,9 +276,6 @@ public class MicrophoneManager : MonoBehaviour {
         StopCapturingAudio();
 
     }
-    // Update is called once per frame
-    void Update () {
-		
-	}
+
 
 }
