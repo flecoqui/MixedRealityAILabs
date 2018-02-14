@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
-using SpeechToText;
+
 
 
 public class MicrophoneManager : MonoBehaviour {
