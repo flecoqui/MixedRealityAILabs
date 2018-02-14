@@ -415,14 +415,15 @@ public class Translator : MonoBehaviour {
 
                 // Play audio
                 audioSource.Play();
+                audioSource.loop = false;
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log(www.error);
                 }
             }
-            StopCoroutine("SpeechToTextWithUnityNetworking");
-        }
 
+        }
+        StopCoroutine("SpeechToTextWithUnityNetworking");
     }
     public static Stream GenerateStreamFromString(string s)
     {
