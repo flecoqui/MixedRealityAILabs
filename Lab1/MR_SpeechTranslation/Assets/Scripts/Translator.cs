@@ -62,9 +62,9 @@ public class Translator : MonoBehaviour {
         }
         // After receiving the token, begin capturing Audio with the Class 
 
-        MicrophoneManager.instance.PrepareCapturingAudio();
+      //  MicrophoneManager.instance.PrepareCapturingAudio();
 
-        MicrophoneManager.instance.StartCapturingAudio();
+      //  MicrophoneManager.instance.StartCapturingAudio();
         StopCoroutine("GetTokenCoroutine");
         yield return null;
     }
