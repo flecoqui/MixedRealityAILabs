@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 183134300}
   - component: {fileID: 183134299}
   m_Layer: 5
-  m_Name: DictationLanguageText
+  m_Name: InputLanguageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 629633996}
   - component: {fileID: 629633995}
   m_Layer: 5
-  m_Name: TranslationResultText
+  m_Name: OuputStringText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 716205274}
   - component: {fileID: 716205273}
   m_Layer: 5
-  m_Name: DictationLanguageLabel
+  m_Name: InputLanguageLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,7 +434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: 0}
+  m_AnchoredPosition: {x: -80, y: 30}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &716205273
@@ -561,7 +561,7 @@ GameObject:
   - component: {fileID: 845218555}
   - component: {fileID: 845218554}
   m_Layer: 5
-  m_Name: DictationLabel
+  m_Name: InputStringLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: 30}
+  m_AnchoredPosition: {x: -80, y: -30}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &845218554
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 1023875810}
   - component: {fileID: 1023875809}
   m_Layer: 5
-  m_Name: TranslationLabel
+  m_Name: OutputStringLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,7 +658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: -30}
+  m_AnchoredPosition: {x: -80, y: -60}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1023875809
@@ -773,7 +773,7 @@ GameObject:
   - component: {fileID: 1075871889}
   - component: {fileID: 1075871888}
   m_Layer: 5
-  m_Name: TranslationLanguageResultText
+  m_Name: OutputLanguageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1089,7 +1089,7 @@ GameObject:
   - component: {fileID: 1571192795}
   - component: {fileID: 1571192794}
   m_Layer: 5
-  m_Name: DictationText
+  m_Name: InputStringText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1238,7 +1238,7 @@ GameObject:
   - component: {fileID: 1664205351}
   - component: {fileID: 1664205350}
   m_Layer: 5
-  m_Name: TranslationLanguageLabel
+  m_Name: OuputLanguageLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1260,7 +1260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: -60}
+  m_AnchoredPosition: {x: -80, y: 0}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1664205350
@@ -1314,11 +1314,10 @@ GameObject:
   - component: {fileID: 2040619281}
   - component: {fileID: 2040619280}
   - component: {fileID: 2040619285}
-  - component: {fileID: 2040619284}
-  - component: {fileID: 2040619287}
   - component: {fileID: 2040619286}
   - component: {fileID: 2040619288}
   - component: {fileID: 2040619289}
+  - component: {fileID: 2040619284}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1396,21 +1395,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2040619279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4f620a1e969f643971145ad16c3ce5, type: 3}
+  m_Script: {fileID: 11500000, guid: ef89bf6dd8f122446a1530b300f814ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   azureResponsecode: 
-  translationResult: 
-  translationLanguageResult: 
-  dictationResult: 
-  dictationLanguageResult: 
+  outputString: 
+  inputString: 
   micStatus: 
-  azureResponseText: {fileID: 1361654490}
-  translationResultText: {fileID: 629633995}
-  translationLanguageResultText: {fileID: 1075871888}
-  dictationText: {fileID: 1571192794}
-  dictationLanguageText: {fileID: 183134299}
+  inputLanguage: 4
+  outputLanguage: 2
+  inputLanguageText: {fileID: 183134299}
+  outputLanguageText: {fileID: 1075871888}
   microphoneStatusText: {fileID: 1490888141}
+  azureResponseText: {fileID: 1361654490}
+  outputStringText: {fileID: 629633995}
+  inputStringText: {fileID: 1571192794}
 --- !u!82 &2040619285
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1502,17 +1501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec32d5d0b0f224545be339c19df0e696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2040619287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2040619279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5245cfe34114af41b74f3e4f6ff4dfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2040619288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,3 +1523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2563e54c54ad14047b8d64cf4d50ea0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionLevel: 100
+  selectionDurationMs: 400
+  clipDurationInSecond: 30

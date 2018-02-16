@@ -222,8 +222,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\MicrophoneManager.cs" />
-    <Compile Include="Assets\Scripts\Results.cs" />
+    <Compile Include="Assets\Scripts\ParametersAndResults.cs" />
     <Compile Include="Assets\Scripts\SpeechToText.cs" />
     <Compile Include="Assets\Scripts\TextToSpeech.cs" />
     <Compile Include="Assets\Scripts\Translator.cs" />

@@ -56,15 +56,11 @@ public class Translator : MonoBehaviour {
             authorizationToken = www.downloadHandler.text;
             if (www.isNetworkError || www.isHttpError)
             {
-                Results.instance.azureResponseText.text = www.error;
+                ParametersAndResults.instance.azureResponseText.text = www.error;
             }
             long responseCode = www.responseCode;
         }
         // After receiving the token, begin capturing Audio with the Class 
-
-      //  MicrophoneManager.instance.PrepareCapturingAudio();
-
-      //  MicrophoneManager.instance.StartCapturingAudio();
         StopCoroutine("GetTokenCoroutine");
         yield return null;
     }
@@ -90,7 +86,7 @@ public class Translator : MonoBehaviour {
             using (Stream stream = GenerateStreamFromString(s))
             {
                 string translatedText = (string)serializer.ReadObject(stream);
-                Results.instance.SetTranslatedResult(translatedText);
+                ParametersAndResults.instance.SetOuputString(translatedText);
 
             }
             if ( www.isNetworkError || www.isHttpError)

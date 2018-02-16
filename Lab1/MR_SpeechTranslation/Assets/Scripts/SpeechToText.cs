@@ -5,64 +5,39 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 
-/// <summary>
-/// class Chunk
-/// </summary>
-/// <info>
-/// Class used to read the Chunk in the WAV file header 
-/// (for instance:"fmt ", "data", "JUNK" chunks).
-/// </info>
-class Chunk
-{
-    public byte[] tag;
-    public uint length;
-    public byte[] data;
-
-    public Chunk()
-    {
-        tag = null;
-        length = 0;
-        data = null;
-    }
-    public Chunk(byte[] Tag, uint Length, byte[] Data)
-    {
-        if (Tag != null)
-        {
-            this.tag = new byte[Tag.Length];
-            for (int i = 0; i < Tag.Length; i++)
-                this.tag[i] = Tag[i];
-        }
-        else
-            this.tag = Tag;
-
-        this.length = Length;
-
-        if (Data != null)
-        {
-            this.data = new byte[Data.Length];
-            for (int j = 0; j < Data.Length; j++)
-                this.data[j] = Data[j];
-        }
-
-    }
-}
 public class SpeechToText : MonoBehaviour {
     public static SpeechToText instance;
-    string speechToTextTokenEndpoint = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
+    // Audio Level
+    // when the audio level is over this value, the audio samples will be recorded
+    public uint selectionLevel = 100;
+    // Period in Milliseconds to calculate the audio level
+    public int selectionDurationMs = 800;
+    // Duration of the input audio buffer
+    public int clipDurationInSecond = 30;
+
+    private string speechToTextTokenEndpoint = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
     private string hostnameString = "speech.platform.bing.com";
     private string apiString = "interactive";
-    string speechToTextEndpoint = "https://{0}/speech/recognition/{1}/cognitiveservices/v1?language={2}&format={3}";
+    private string speechToTextEndpoint = "https://{0}/speech/recognition/{1}/cognitiveservices/v1?language={2}&format={3}";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
     // Sobstitute the value of authorizationKey with your own Key 
     private const string speechToTextAuthorizationKey = "05fd1c63460b41968412723e6b7bb2ce";
     private string speechToTextAuthorizationToken;
-    bool microphoneDetected;
-    AudioClip clip;
-    bool isCapturingAudio;
+    private bool IsMicrophoneDetected;
+    private AudioClip clip;
+    private bool isCapturingAudio;
+
+    private int sampleRate = 16000;
+    private int currentBuffer;
+    private byte[][] bufferArray ;
+    private int numberOfBuffer ;
+    private int bufferSize ;
+
+
+
     private void Awake()
     {
         instance = this;
-
     }
     // Use this for initialization
     void Start()
@@ -74,13 +49,13 @@ public class SpeechToText : MonoBehaviour {
 
         if (Microphone.devices.Length > 0)
         {
-            Results.instance.SetMicrophoneStatus("Initializing...");
+            ParametersAndResults.instance.SetMicrophoneStatus("Initializing...");
 
-            microphoneDetected = true;
+            IsMicrophoneDetected = true;
         }
         else
         {
-            Results.instance.SetMicrophoneStatus("No microphone detected");
+            ParametersAndResults.instance.SetMicrophoneStatus("No microphone detected");
 
         }
 
@@ -88,15 +63,24 @@ public class SpeechToText : MonoBehaviour {
     public void StartCapturingAudio()
     {
         Debug.Log("Start Capturing Audio");
-        if (microphoneDetected)
+        if (IsMicrophoneDetected)
         {
-            
-            clip = Microphone.Start(null, true, 5, 16000);
+            numberOfBuffer = (clipDurationInSecond * 1000) / selectionDurationMs;
+            bufferSize = (selectionDurationMs * sampleRate * 2) / 1000;
+            // Creating buffers
+            currentBuffer = 0;
+            bufferArray = new byte[numberOfBuffer][];
+            for(int i = 0; i<numberOfBuffer; i++)
+            {
+                bufferArray[i] = new byte[bufferSize];
+            }
+
+
+            clip = Microphone.Start(null, true, clipDurationInSecond, sampleRate);
             while (!(Microphone.GetPosition(null) > 0)) { }
             isCapturingAudio = true;
-            Results.instance.SetMicrophoneStatus("Capturing...");
-            Results.instance.SetDictationLanguageResult("en");
-            Results.instance.SetTranslatedLanguageResult("it");
+            ParametersAndResults.instance.SetMicrophoneStatus("Capturing...");
+
         }
     }
 
@@ -116,18 +100,18 @@ public class SpeechToText : MonoBehaviour {
             speechToTextAuthorizationToken = www.downloadHandler.text;
             if (www.isNetworkError || www.isHttpError)
             {
-                Results.instance.azureResponseText.text = www.error;
+                ParametersAndResults.instance.azureResponseText.text = www.error;
             }
             long responseCode = www.responseCode;
 
-            Results.instance.SetAzureResponse(responseCode.ToString());
+            ParametersAndResults.instance.SetAzureResponse(responseCode.ToString());
         }
         // After receiving the token, begin capturing Audio with the Class 
         StopCoroutine("GetSpeechToTextTokenCoroutine");
         PrepareCapturingAudio();
         StartCapturingAudio();
 
-        StartCoroutine("SpeechToTextWithUnityNetworking", "en-US");
+        StartCoroutine("SpeechToTextWithUnityNetworking", ParametersAndResults.instance.GetLanguageString(ParametersAndResults.instance.inputLanguage));
         yield return null;
     }
     private IEnumerable<Int16> Decode(byte[] byteArray)
@@ -137,127 +121,7 @@ public class SpeechToText : MonoBehaviour {
             yield return (BitConverter.ToInt16(byteArray, i));
         }
     }
-    //private uint ParseAndGetWAVHeaderLength(byte[] buffer)
-    //{
-
-    //    int length = 0;
-    //    uint source = 0;
-    //    if (IsTag(buffer, "RIFF") == true)
-    //    {
-    //        source += 4;
-    //        if (GetInt(buffer.AsBuffer().ToArray(source, 4), out length) == true)
-    //        {
-    //            source += 4;
-    //            if (IsTag(buffer.AsBuffer().ToArray(source, 4), "WAVE") == true)
-    //            {
-    //                source += 4;
-    //                Chunk c = new Chunk();
-    //                while ((source + 8 <= buffer.Length) && (ReadChunkHeader(buffer.AsBuffer().ToArray(source, 8), c) == true))
-    //                {
-    //                    source += 8;
-    //                    if (IsTag(c.tag, "fmt ") == true)
-    //                    {
-    //                        fmt = new Chunk(c.tag, c.length, c.data);
-
-    //                        if ((source + c.length < buffer.Length) && (ReadChunkData(buffer.AsBuffer().ToArray(source, (int)c.length), fmt) == true))
-    //                        {
-    //                            nChannels = BitConverter.ToUInt16(fmt.data, 2);
-    //                            nSamplesPerSec = BitConverter.ToUInt32(fmt.data, 4);
-    //                            nAvgBytesPerSec = BitConverter.ToUInt32(fmt.data, 8);
-    //                            nBlockAlign = BitConverter.ToUInt16(fmt.data, 12);
-    //                            wBitsPerSample = BitConverter.ToUInt16(fmt.data, 14);
-    //                            thresholdDurationInBytes = (nAvgBytesPerSec * tresholdDuration) / 1000;
-    //                            source += c.length;
-    //                        }
-    //                        else
-    //                            return 0;
-    //                    }
-    //                    else if (IsTag(c.tag, "data") == true)
-    //                    {
-    //                        // Almost done
-    //                        if (fmt.length > 0)
-    //                        {
-    //                            //source += 8;
-    //                            data = new Chunk(c.tag, c.length, c.data);
-    //                            break;
-    //                        }
-    //                    }
-    //                    else
-    //                    {
-    //                        source += c.length;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //    return source;
-    //}
-    //static bool ReadChunkHeader(byte[] buffer, Chunk c)
-    //{
-    //    if ((buffer != null) && (buffer.Length >= 8) && (c != null))
-    //    {
-    //        c.tag = new byte[4];
-    //        buffer.CopyTo(0, c.tag.AsBuffer(), 0, 4);
-    //        {
-    //            byte[] array = new byte[4];
-    //            buffer.CopyTo(4, array.AsBuffer(), 0, 4);
-    //            c.length = BitConverter.ToUInt32(array, 0);
-    //            if (c.length >= 0)
-    //            {
-    //                return true;
-    //            }
-    //        }
-    //    }
-    //    return false;
-    //}
-    //static bool ReadChunkData(byte[] buffer, Chunk c)
-    //{
-    //    if ((buffer != null) && (buffer.Length >= 8) && (c != null))
-    //    {
-    //        c.data = new byte[c.length];
-    //        buffer.CopyTo(0, c.data.AsBuffer(), 0, (int)c.length);
-    //        return true;
-    //    }
-    //    return false;
-    //}
-    static bool ReadTag(System.IO.FileStream ifs, string tag)
-    {
-        if ((ifs != null) && (tag != null))
-        {
-            byte[] a = System.Text.UTF8Encoding.UTF8.GetBytes(tag);
-            if (a != null)
-            {
-                byte[] buffer = new byte[a.Length];
-                if (ifs.Read(buffer, 0, a.Length) == a.Length)
-                {
-                    for (int i = 0; i < a.Length; i++)
-                    {
-                        if (a[i] != buffer[i])
-                            return false;
-                    }
-                    return true;
-                };
-            }
-        }
-        return false;
-    }
-    static bool IsTag(byte[] buffer, string tag)
-    {
-        if ((buffer != null) && (tag != null))
-        {
-            byte[] a = System.Text.UTF8Encoding.UTF8.GetBytes(tag);
-            if (a != null)
-            {
-                for (int i = 0; i < a.Length; i++)
-                {
-                    if (a[i] != buffer[i])
-                        return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
+ 
     static bool GetInt(byte[] buffer, out int i)
     {
         i = 0;
@@ -268,23 +132,7 @@ public class SpeechToText : MonoBehaviour {
         }
         return false;
     }
-    //public byte[] CreateWAVHeaderBuffer(uint Len)
-    //{
-    //    uint headerLen = 4 + fmt.length + 8 + 8 + 8;
-    //    byte[] updatedBuffer = new byte[headerLen];
-    //    if (updatedBuffer != null)
-    //    {
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("RIFF").CopyTo(0, updatedBuffer.AsBuffer(), 0, 4);
-    //        BitConverter.GetBytes(4 + fmt.length + 8 + Len + 8).CopyTo(0, updatedBuffer.AsBuffer(), 4, 4);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("WAVE").CopyTo(0, updatedBuffer.AsBuffer(), 8, 4);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("fmt ").CopyTo(0, updatedBuffer.AsBuffer(), 12, 4);
-    //        BitConverter.GetBytes(fmt.length).CopyTo(0, updatedBuffer.AsBuffer(), 16, 4);
-    //        fmt.data.CopyTo(0, updatedBuffer.AsBuffer(), 20, (int)fmt.length);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("data").CopyTo(0, updatedBuffer.AsBuffer(), 20 + fmt.length, 4);
-    //        BitConverter.GetBytes(Len).CopyTo(0, updatedBuffer.AsBuffer(), 24 + fmt.length, 4);
-    //    }
-    //    return updatedBuffer;
-    //}
+
     static byte[] CreateHeader(AudioClip clip, int Length = 0)
     {
         uint headerLen = 4 + 16 + 8 + 8 + 8;
@@ -292,7 +140,7 @@ public class SpeechToText : MonoBehaviour {
         var hz = clip.frequency;
         var channels = clip.channels;
         var samples = clip.samples;
-        uint Len = ( (Length == 0) ? (uint)clip.samples * 2 : (uint) (Length*2));
+        uint Len = ( (Length == 0) ? (uint)clip.samples * 2 : (uint) (Length));
 
         if (updatedBuffer != null)
         {
@@ -324,23 +172,7 @@ public class SpeechToText : MonoBehaviour {
         }
         return updatedBuffer;
     }
-    //public byte[] CreateWAVHeaderBuffer(uint Len)
-    //{
-    //    uint headerLen = 4 + fmt.length + 8 + 8 + 8;
-    //    byte[] updatedBuffer = new byte[headerLen];
-    //    if (updatedBuffer != null)
-    //    {
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("RIFF").CopyTo(0, updatedBuffer.AsBuffer(), 0, 4);
-    //        BitConverter.GetBytes(4 + fmt.length + 8 + Len + 8).CopyTo(0, updatedBuffer.AsBuffer(), 4, 4);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("WAVE").CopyTo(0, updatedBuffer.AsBuffer(), 8, 4);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("fmt ").CopyTo(0, updatedBuffer.AsBuffer(), 12, 4);
-    //        BitConverter.GetBytes(fmt.length).CopyTo(0, updatedBuffer.AsBuffer(), 16, 4);
-    //        fmt.data.CopyTo(0, updatedBuffer.AsBuffer(), 20, (int)fmt.length);
-    //        System.Text.UTF8Encoding.UTF8.GetBytes("data").CopyTo(0, updatedBuffer.AsBuffer(), 20 + fmt.length, 4);
-    //        BitConverter.GetBytes(Len).CopyTo(0, updatedBuffer.AsBuffer(), 24 + fmt.length, 4);
-    //    }
-    //    return updatedBuffer;
-    //}
+
 
 
     static Byte[] ConvertClipToByteArray(AudioClip clip)
@@ -409,7 +241,7 @@ public class SpeechToText : MonoBehaviour {
             yield return null ;
         int writeIndex = 0;
         int readIndex = 0;
-        int floatBufferSize = clip.samples / 2;
+        int floatBufferSize = (selectionDurationMs * sampleRate ) / 1000;
         float[] floatBuffer = new float[floatBufferSize];
         while (true)
         {
@@ -422,19 +254,28 @@ public class SpeechToText : MonoBehaviour {
                     clip.GetData(floatBuffer, readIndex);
                     readIndex = (readIndex + floatBufferSize) % clip.samples;
 
-                    Debug.Log("Capturing at Position: " + writeIndex.ToString());
-                    var hz = clip.frequency;
-                    var channels = clip.channels;
-                    var samples = clip.samples;
-                    byte[] header = CreateHeader(clip, floatBufferSize);
+                    //Debug.Log("Capturing at Position: " + writeIndex.ToString());
                     byte[] data = ConvertFloatArrayToByteArray(floatBuffer);
                     var amplitude = DecodeLevel(data).Select(Math.Abs).Average(x => x);
-                    if (amplitude > 100)
+                    // if the audio level sufficient to record those audio samples
+                    if (amplitude > selectionLevel)
                     {
+                        // Level sufficient copy the buffer
+                        data.CopyTo(bufferArray[currentBuffer++], 0);
+                    }
+
+                    // Should we send the audio samples to SpeechToText services
+                    if ((currentBuffer >= numberOfBuffer) ||
+                        ((amplitude < selectionLevel) && (currentBuffer>0)))
+                    {
+                        
+                        byte[] header = CreateHeader(clip, currentBuffer*bufferSize);
                         Debug.Log("Level sufficient sending the audio chunks" );
-                        byte[] buffer = new byte[header.Length + data.Length];
+                        byte[] buffer = new byte[header.Length + currentBuffer * bufferSize];
                         header.CopyTo(buffer, 0);
-                        data.CopyTo(buffer, 44);
+                        for(int i = 0; i < currentBuffer;i++)
+                            bufferArray[i].CopyTo(buffer, 44 + i*bufferSize );
+                        currentBuffer = 0;
                         string resultType = "simple";  // choice "simple" or "detailed"
                                                        // mode interactive dictation conversation
                                                        //string[] LanguageArray =
@@ -480,9 +321,8 @@ public class SpeechToText : MonoBehaviour {
                                                 if (value[0] == "\"DisplayText\"")
                                                 {
                                                     string text = value[1];
-                                                    Results.instance.SetDictationResult(text);
+                                                    ParametersAndResults.instance.SetInputString(text);
 
-                                                    StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text, Results.instance.dictationLanguageResult, Results.instance.translationLanguageResult));
 
                                                 }
                                             }

@@ -60,11 +60,11 @@ public class TextToSpeech : MonoBehaviour
             textToSpeechAuthorizationToken = www.downloadHandler.text;
             if (www.isNetworkError || www.isHttpError)
             {
-                Results.instance.azureResponseText.text = www.error;
+                ParametersAndResults.instance.azureResponseText.text = www.error;
             }
             long responseCode = www.responseCode;
 
-            Results.instance.SetAzureResponse(responseCode.ToString());
+            ParametersAndResults.instance.SetAzureResponse(responseCode.ToString());
         }
         // After receiving the token, begin capturing Audio with the Class 
         StopCoroutine("GetTextToSpeechTokenCoroutine");
@@ -294,12 +294,11 @@ public class TextToSpeech : MonoBehaviour
         return unityData;
     }
 
-    public IEnumerator TextToSpeechWithUnityNetworking(string text, string language)
+    public IEnumerator TextToSpeechWithUnityNetworking(string text, string lang)
     {
 
 
-        Debug.Log("Text to Speech in: " + language.ToString());
-        string lang = GetLanguage(language);
+        Debug.Log("Text to Speech in: " + lang);
         string gender = "Female";
         string contentString = GenerateSsml(lang, gender, GetVoiceName(lang, gender), text);
 
