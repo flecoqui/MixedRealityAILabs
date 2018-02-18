@@ -51,7 +51,7 @@ public class ParametersAndResults : MonoBehaviour
         outputStringText.text = Result;
         if (!string.IsNullOrEmpty(Result) && (Result != "??"))
         {
-            // launch the Text To Speech
+            // launch SpeechToText
             StartCoroutine(TextToSpeech.instance.TextToSpeechWithUnityNetworking(Result, ParametersAndResults.instance.GetLanguageString(ParametersAndResults.instance.outputLanguage)));
         }
     }

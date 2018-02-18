@@ -25,7 +25,7 @@ public class SpeechToText : MonoBehaviour {
     private string speechToTextAuthorizationToken;
     private bool IsMicrophoneDetected;
     private AudioClip clip;
-    private bool isCapturingAudio;
+
 
     private int sampleRate = 16000;
     private int currentBuffer;
@@ -33,7 +33,8 @@ public class SpeechToText : MonoBehaviour {
     private int numberOfBuffer ;
     private int bufferSize ;
 
-
+    [HideInInspector] public bool IsCapturingAudio;
+    public void EnableAudioCapture(bool bEnable) { IsCapturingAudio = bEnable; }
 
     private void Awake()
     {
@@ -78,7 +79,7 @@ public class SpeechToText : MonoBehaviour {
 
             clip = Microphone.Start(null, true, clipDurationInSecond, sampleRate);
             while (!(Microphone.GetPosition(null) > 0)) { }
-            isCapturingAudio = true;
+            IsCapturingAudio = true;
             ParametersAndResults.instance.SetMicrophoneStatus("Capturing...");
 
         }
@@ -257,90 +258,97 @@ public class SpeechToText : MonoBehaviour {
                     //Debug.Log("Capturing at Position: " + writeIndex.ToString());
                     byte[] data = ConvertFloatArrayToByteArray(floatBuffer);
                     var amplitude = DecodeLevel(data).Select(Math.Abs).Average(x => x);
-                    // if the audio level sufficient to record those audio samples
-                    if (amplitude > selectionLevel)
-                    {
-                        // Level sufficient copy the buffer
-                        data.CopyTo(bufferArray[currentBuffer++], 0);
-                    }
+                    if(IsCapturingAudio == true)
+                    { 
+                        // if the audio level sufficient to record those audio samples
+                        if (amplitude > selectionLevel)
+                        {
+                            // Level sufficient copy the buffer
+                            data.CopyTo(bufferArray[currentBuffer++], 0);
+                        }
 
-                    // Should we send the audio samples to SpeechToText services
-                    if ((currentBuffer >= numberOfBuffer) ||
-                        ((amplitude < selectionLevel) && (currentBuffer>0)))
-                    {
-                        
-                        byte[] header = CreateHeader(clip, currentBuffer*bufferSize);
-                        Debug.Log("Level sufficient sending the audio chunks" );
-                        byte[] buffer = new byte[header.Length + currentBuffer * bufferSize];
-                        header.CopyTo(buffer, 0);
-                        for(int i = 0; i < currentBuffer;i++)
-                            bufferArray[i].CopyTo(buffer, 44 + i*bufferSize );
-                        currentBuffer = 0;
-                        string resultType = "simple";  // choice "simple" or "detailed"
-                                                       // mode interactive dictation conversation
-                                                       //string[] LanguageArray =
-                                                       // {"ca-ES","de-DE","zh-TW", "zh-HK","ru-RU","es-ES", "ja-JP","ar-EG", "da-DK","en-AU" ,"en-CA","en-GB" ,"en-IN", "en-US" , "en-NZ","es-MX","fi-FI",
-                                                       //      "fr-FR","fr-CA" ,"it-IT","ko-KR" , "nb-NO","nl-NL","pt-BR" ,"pt-PT"  ,
-                                                       //      "pl-PL"  ,"sv-SE", "zh-CN"  };
-                        UploadHandlerRaw MyUploadHandler = new UploadHandlerRaw(buffer);
-                        MyUploadHandler.contentType = "audio/wav; codec=\"audio/pcm\"; samplerate=16000";
-
-                        using (UnityWebRequest www = new UnityWebRequest(string.Format(speechToTextEndpoint, hostname, mode, language, resultType), UnityWebRequest.kHttpVerbPOST, new DownloadHandlerBuffer(), MyUploadHandler))
+                        // Should we send the audio samples to SpeechToText services
+                        if ((currentBuffer >= numberOfBuffer) ||
+                            ((amplitude < selectionLevel) && (currentBuffer > 0)))
                         {
 
-                            www.useHttpContinue = true;
-                            www.chunkedTransfer = true;
-                            //  www.uploadHandler = MyUploadHandler;
-                            //  www.downloadHandler = new DownloadHandlerBuffer();
-                            www.SetRequestHeader("Authorization", "Bearer " + speechToTextAuthorizationToken);
-                            www.SetRequestHeader("Content-Type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
-                            www.SetRequestHeader("Accept", "application/json;text/xml");
-                            //     www.SetRequestHeader("Transfer-Encoding", "chunked");
-                            //     www.SetRequestHeader("Expect", "100-continue");
+                            byte[] header = CreateHeader(clip, currentBuffer * bufferSize);
+                            Debug.Log("Level sufficient sending the audio chunks");
+                            byte[] buffer = new byte[header.Length + currentBuffer * bufferSize];
+                            header.CopyTo(buffer, 0);
+                            for (int i = 0; i < currentBuffer; i++)
+                                bufferArray[i].CopyTo(buffer, 44 + i * bufferSize);
+                            currentBuffer = 0;
+                            string resultType = "simple";  // choice "simple" or "detailed"
+                                                           // mode interactive dictation conversation
+                                                           //string[] LanguageArray =
+                                                           // {"ca-ES","de-DE","zh-TW", "zh-HK","ru-RU","es-ES", "ja-JP","ar-EG", "da-DK","en-AU" ,"en-CA","en-GB" ,"en-IN", "en-US" , "en-NZ","es-MX","fi-FI",
+                                                           //      "fr-FR","fr-CA" ,"it-IT","ko-KR" , "nb-NO","nl-NL","pt-BR" ,"pt-PT"  ,
+                                                           //      "pl-PL"  ,"sv-SE", "zh-CN"  };
+                            UploadHandlerRaw MyUploadHandler = new UploadHandlerRaw(buffer);
+                            MyUploadHandler.contentType = "audio/wav; codec=\"audio/pcm\"; samplerate=16000";
 
-
-
-                            // www.method = UnityWebRequest.kHttpVerbPOST;
-                            yield return www.SendWebRequest();
-                            string s = www.downloadHandler.text;
-                            if (!string.IsNullOrEmpty(s))
+                            using (UnityWebRequest www = new UnityWebRequest(string.Format(speechToTextEndpoint, hostname, mode, language, resultType), UnityWebRequest.kHttpVerbPOST, new DownloadHandlerBuffer(), MyUploadHandler))
                             {
-                                Debug.Log("Response from Service: " + s);
+
+                                www.useHttpContinue = true;
+                                www.chunkedTransfer = true;
+                                //  www.uploadHandler = MyUploadHandler;
+                                //  www.downloadHandler = new DownloadHandlerBuffer();
+                                www.SetRequestHeader("Authorization", "Bearer " + speechToTextAuthorizationToken);
+                                www.SetRequestHeader("Content-Type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
+                                www.SetRequestHeader("Accept", "application/json;text/xml");
+                                //     www.SetRequestHeader("Transfer-Encoding", "chunked");
+                                //     www.SetRequestHeader("Expect", "100-continue");
+
+
+
+                                // www.method = UnityWebRequest.kHttpVerbPOST;
+                                yield return www.SendWebRequest();
+                                string s = www.downloadHandler.text;
                                 if (!string.IsNullOrEmpty(s))
                                 {
-                                    char[] sep = { '{', '}', ',' };
-                                    string[] values = s.Split(sep);
-                                    if (values != null)
+                                    Debug.Log("Response from Service: " + s);
+                                    if (!string.IsNullOrEmpty(s))
                                     {
-                                        foreach (var val in values)
+                                        char[] sep = { '{', '}', ',' };
+                                        string[] values = s.Split(sep);
+                                        if (values != null)
                                         {
-                                            char[] locsep = { ':' };
-                                            string[] value = val.Split(locsep);
-                                            if ((value != null) && (value.Length == 2))
+                                            foreach (var val in values)
                                             {
-                                                if (value[0] == "\"DisplayText\"")
+                                                char[] locsep = { ':' };
+                                                string[] value = val.Split(locsep);
+                                                if ((value != null) && (value.Length == 2))
                                                 {
-                                                    string text = value[1];
-                                                    ParametersAndResults.instance.SetInputString(text);
+                                                    if (value[0] == "\"DisplayText\"")
+                                                    {
+                                                        string text = value[1];
+                                                        ParametersAndResults.instance.SetInputString(text);
 
 
+                                                    }
                                                 }
                                             }
                                         }
+
                                     }
 
+
+                                    if (www.isNetworkError || www.isHttpError)
+                                    {
+                                        Debug.Log(www.error);
+                                    }
                                 }
 
-
-                                if (www.isNetworkError || www.isHttpError)
-                                {
-                                    Debug.Log(www.error);
-                                }
                             }
-
                         }
                     }
-                
+                    else
+                    {
+                        // Debug.Log("Position: " + i.ToString());
+                        yield return null;
+                    }
                 }
                 else
                 {

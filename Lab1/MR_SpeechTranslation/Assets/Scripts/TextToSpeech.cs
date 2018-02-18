@@ -38,6 +38,22 @@ public class TextToSpeech : MonoBehaviour
     }
 
 
+    void Update()
+    {
+        if ((audioSource==null)||(!audioSource.isPlaying))
+        {
+
+            // When TextToSpeech is over, enable Audio Capture for SpeechToText
+            SpeechToText.instance.EnableAudioCapture(true);
+
+        }
+        else
+        {
+
+            // Disable Audio Capture for SpeechToText
+            SpeechToText.instance.EnableAudioCapture(false);
+        }
+    }
 
 
 
@@ -325,7 +341,7 @@ public class TextToSpeech : MonoBehaviour
            // www.method = UnityWebRequest.kHttpVerbPOST;
             yield return www.SendWebRequest();
             byte[] s = www.downloadHandler.data;
-            if ((s != null) && (s.Length > 0))
+            if ((s != null) && (s.Length > 44) && (s[0]=='R') && (s[1] == 'I') && (s[2] == 'F') && (s[3] == 'F'))
             {
                 int sampleCount = 0;
                 int frequency = 0;
@@ -339,12 +355,16 @@ public class TextToSpeech : MonoBehaviour
 
                 // Play audio
                 audioSource.Play();
+                Debug.Log("AudioSource Playing :" + text);
                 audioSource.loop = false;
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log(www.error);
                 }
             }
+            else
+                Debug.Log("Cognitive Services didn't return WAV stream");
+
 
         }
         StopCoroutine("TextToSpeechWithUnityNetworking");
