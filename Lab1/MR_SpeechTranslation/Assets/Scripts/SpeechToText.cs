@@ -247,7 +247,7 @@ public class SpeechToText : MonoBehaviour {
         while (true)
         {
             writeIndex = Microphone.GetPosition(null);
-            if(writeIndex != readIndex)
+            if((writeIndex != readIndex)&&(clip.samples>0))
             {
                 int nFloatsToGet = (clip.samples + writeIndex - readIndex) % clip.samples;
                 if (nFloatsToGet > floatBufferSize)
@@ -333,12 +333,12 @@ public class SpeechToText : MonoBehaviour {
                                         }
 
                                     }
-
-
-                                    if (www.isNetworkError || www.isHttpError)
-                                    {
-                                        Debug.Log(www.error);
-                                    }
+                                }
+                                else
+                                    Debug.Log("Error while sending Audio chunks to Cognitive Services: empty response");
+                                if (www.isNetworkError || www.isHttpError)
+                                {
+                                    Debug.Log("Error while sending Audio chunks to Cognitive Services:" + www.error);
                                 }
 
                             }
