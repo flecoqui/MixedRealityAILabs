@@ -1,9 +1,9 @@
-# Mixed Reality Artificial Intelligence Labs
+# Windows Mixed Reality Artificial Intelligence Labs
 
 
 Overview
 ---------
-This github repo contains sample applications used for the Mixed Reality Artificial Intelligence Labs. 
+This github repo contains sample applications used for the Windows Mixed Reality Artificial Intelligence Labs. 
 Those applications are Windows Mixed Reality Applications running either on Hololens or Windows Mixed Reality Immersive headset using [Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/).
 
 
