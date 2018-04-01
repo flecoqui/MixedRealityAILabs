@@ -1,0 +1,3 @@
+o9QElBB1izcKJSLkArZ3EzGpNhRSIirj16NgaqvL/6JdKStl12yo2qaIor41NmT/tdtLgXG1qrqhAwLlKaP0NA==
+
+DefaultEndpointsProtocol=https;AccountName=mrazsto;AccountKey=o9QElBB1izcKJSLkArZ3EzGpNhRSIirj16NgaqvL/6JdKStl12yo2qaIor41NmT/tdtLgXG1qrqhAwLlKaP0NA==;EndpointSuffix=core.windows.net
