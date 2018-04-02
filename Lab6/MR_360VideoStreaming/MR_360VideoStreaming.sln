@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MR_360VideoStreaming", "MR_360VideoStreaming.csproj", "{437CF0BD-11D9-46C5-5041-ED8359322BD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{437CF0BD-11D9-46C5-5041-ED8359322BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437CF0BD-11D9-46C5-5041-ED8359322BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437CF0BD-11D9-46C5-5041-ED8359322BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437CF0BD-11D9-46C5-5041-ED8359322BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
