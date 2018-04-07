@@ -553,11 +553,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: MRMachineLearning
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: C:\git\flecoqui\MixedRealityAILabs\Lab7\MR_MachineLearning\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 80ba0cfac7edd401
   metroApplicationDescription: MR_MachineLearning
   wsaImages: {}
   metroTileShortName: 

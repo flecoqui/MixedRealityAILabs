@@ -56,11 +56,11 @@ public class ProductPrediction : MonoBehaviour {
     /// <summary> 
     /// The 'Primary Key' from your Machine Learning Portal 
     /// </summary> 
-    private string authKey = "-insert here your service auth Key-";          
+    private string authKey = "HvRg1MKjce0H/RjKaxV5OunrH48LCyYU4neJiCtrnikrP8PHpHmdOPoiV+XINTt+H+7YpyRI/2090M7OFYzwCA==";          
     /// <summary> 
     /// The 'Request-Response' Service Endpoint from your Machine Learning Portal 
     /// </summary> 
-    private string serviceEndpoint = "-insert here your service endpoint Key-";
+    private string serviceEndpoint = "https://europewest.services.azureml.net/workspaces/b6bf2f03c4c84722a71760a90140c9c6/services/9599dd8fa905466ba33d9bc01fd73f56/execute?api-version=2.0&details=true";
     /// <summary> 
     /// The Hour as set in Windows 
     /// </summary> 
