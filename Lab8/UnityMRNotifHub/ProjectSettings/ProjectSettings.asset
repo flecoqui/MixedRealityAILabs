@@ -553,11 +553,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: UnityMRNotifHub
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: C:\git\flecoqui\MixedRealityAILabs\Lab8\UnityMRNotifHub\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00a4e01cb3edd401
   metroApplicationDescription: UnityMRNotifHub
   wsaImages: {}
   metroTileShortName: 

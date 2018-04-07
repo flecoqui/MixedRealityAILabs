@@ -28,11 +28,11 @@ public class NotificationReceiver : MonoBehaviour {
     /// <summary> 
     /// Insert here your Notification Hub Service name  
     /// </summary> 
-    private string hubName = " -- Insert the name of your service -- ";
+    private string hubName = "MR_Azure_NotHub_ServiceInstance";
     /// <summary> 
     /// Insert here your Notification Hub Service "Listen endpoint" 
     /// </summary> 
-    private string hubListenEndpoint = "-Insert your Notification Hub Service Listen endpoint-";
+    private string hubListenEndpoint = "Endpoint=sb://mrazurenothubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=CVDdOJZ2axMadhueg4FN5r8zz4IbpkDdJyK58tFht5w=";
     /// <summary> 
     /// Triggers before initialization 
     /// </summary> 
@@ -78,18 +78,18 @@ public class NotificationReceiver : MonoBehaviour {
     private async void InitNotificationsAsync()
     {
 
-        // PushNotificationChannel channel =  
-        //     await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync(); 
-        // NotificationHub hub = new NotificationHub(hubName, hubListenEndpoint); 
-        // Registration result = await hub.RegisterNativeAsync(channel.Uri); 
-        // If registration was successful, subscribe to Push Notifications 
-        // if (result.RegistrationId != null) 
-        // { 
-        //     Debug.Log($"Registration Successful: {result.RegistrationId}"); 
-        //     channel.PushNotificationReceived += Channel_PushNotificationReceived; 
-        // } 
+        PushNotificationChannel channel =
+            await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+        Microsoft.WindowsAzure.Messaging.NotificationHub hub = new Microsoft.WindowsAzure.Messaging.NotificationHub(hubName, hubListenEndpoint);
+        Microsoft.WindowsAzure.Messaging.Registration result = await hub.RegisterNativeAsync(channel.Uri);
+        //If registration was successful, subscribe to Push Notifications
+         if (result.RegistrationId != null)
+        {
+            Debug.Log($"Registration Successful: {result.RegistrationId}");
+            channel.PushNotificationReceived += Channel_PushNotificationReceived;
+        }
     }
-    /* 
+    
 
 
 /// <summary> 
@@ -115,5 +115,5 @@ public class NotificationReceiver : MonoBehaviour {
          notifReceived = true; 
      } 
  } 
-     */
+     
 }

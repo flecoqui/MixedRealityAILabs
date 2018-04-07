@@ -32,12 +32,12 @@ public class TableToScene : MonoBehaviour {
     /// <summary>          
     /// Insert here you Azure Storage name
     /// </summary>          
-    private string accountName = " -- Insert your Azure Storage name -- "; 
+    private string accountName = "mrazurenothubappstorage"; 
 
     /// <summary>          
     /// Insert here you Azure Storage key          
     /// </summary>          
-    private string accountKey = " -- Insert your Azure Storage key -- ";
+    private string accountKey = "ZrPBvMaXCJ4mzDEYlUud+OcZ+kD5t1+LL9aaKfNEyA6caZQwjcg/Fn4dKi8908tlGB1xVoSYqaBCcAyW7zE44w==";
     /// <summary> 
     /// Triggers before initialization 
     /// </summary> 

@@ -13,7 +13,7 @@ public class CloudScene : MonoBehaviour {
     /// <summary> 
     /// Insert here you Azure Function Url 
     /// </summary> 
-    private string azureFunctionEndpoint = "--Insert here you Azure Function Endpoint--";
+    private string azureFunctionEndpoint = "https://mrazurenothubfunctionapp.azurewebsites.net/api/AzureF_SetObjectPosition?code=lga9At1fHF1AjgRQYJOdR905lUaoN5Vi3EmMfexg0mwYZp9SeGLfyA==";
     /// <summary> 
     /// Flag for object being moved 
     /// </summary> 

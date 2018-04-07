@@ -1,0 +1,1 @@
+{   "frameworks": {     "net46":{       "dependencies": {         "WindowsAzure.Storage": "7.0.0",         "Microsoft.Azure.NotificationHubs" : "1.0.9",         "Microsoft.Azure.WebJobs.Extensions.NotificationHubs" :"1.1.0"       }     }    } }
