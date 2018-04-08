@@ -23,11 +23,11 @@ public class VideoController : MonoBehaviour {
     /// <summary> 
     /// Insert here the first video endpoint 
     /// </summary> 
-    private string video1endpoint = " < insert the first video endpoint here > ";
+    private string video1endpoint = "https://mrmediaservicesto.blob.core.windows.net/asset-676aa053-fe7e-4e70-81a7-ac78e90f1914/Ayutthaya1.mp4";
     /// <summary> 
     /// Insert here the second video endpoint 
     /// </summary> 
-    private string video2endpoint = " < insert the second video endpoint here > ";
+    private string video2endpoint = "https://mrmediaservicesto.blob.core.windows.net/asset-bfa7d948-fbfd-425a-94f1-f96f0d360ba7/TowerBridge.mp4";
     /// <summary> 
     /// Reference to the Inside-Out Sphere. 
     /// </summary> 
