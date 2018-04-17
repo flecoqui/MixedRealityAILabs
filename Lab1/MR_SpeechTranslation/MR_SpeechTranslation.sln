@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MR_SpeechTranslation", "MR_SpeechTranslation.csproj", "{99BCFA47-1338-77B2-D8A9-E3FDFAB779D2}"
 EndProject
 Global

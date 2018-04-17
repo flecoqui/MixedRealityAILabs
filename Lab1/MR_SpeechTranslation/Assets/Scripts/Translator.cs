@@ -18,7 +18,7 @@ public class Translator : MonoBehaviour {
     string translationTextEndpoint = "https://api.microsofttranslator.com/v2/http.svc/Translate?";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key" ;
     // Sobstitute the value of authorizationKey with your own Key 
-    private const string authorizationKey = "6ad0f6d409a6406bb7176552fcc54666";
+    private const string authorizationKey = "f945042c15474984bcb00bc976cb5f29";
     private string authorizationToken;
 
 

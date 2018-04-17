@@ -21,7 +21,7 @@ public class SpeechToText : MonoBehaviour {
     private string speechToTextEndpoint = "https://{0}/speech/recognition/{1}/cognitiveservices/v1?language={2}&format={3}";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
     // Sobstitute the value of authorizationKey with your own Key 
-    private const string speechToTextAuthorizationKey = "05fd1c63460b41968412723e6b7bb2ce";
+    private const string speechToTextAuthorizationKey = "c7752a93be604b97a2beb44ac241d922";
     private string speechToTextAuthorizationToken;
     private bool IsMicrophoneDetected;
     private AudioClip clip;

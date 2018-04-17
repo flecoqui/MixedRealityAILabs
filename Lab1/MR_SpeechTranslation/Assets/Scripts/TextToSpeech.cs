@@ -20,7 +20,7 @@ public class TextToSpeech : MonoBehaviour
     string textToSpeechEndpoint = "https://speech.platform.bing.com/synthesize";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
     // Sobstitute the value of authorizationKey with your own Key 
-    private const string textToSpeechAuthorizationKey = "05fd1c63460b41968412723e6b7bb2ce";
+    private const string textToSpeechAuthorizationKey = "c7752a93be604b97a2beb44ac241d922";
     private string textToSpeechAuthorizationToken;
 
 
