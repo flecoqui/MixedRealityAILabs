@@ -13,6 +13,7 @@ public class ImageCapture : MonoBehaviour {
     public int tapsCount;
     PhotoCapture photoCaptureObject = null;
     GestureRecognizer recognizer;
+    private bool currentlyCapturing = false;
 
     private void Awake()
     {
@@ -28,9 +29,13 @@ public class ImageCapture : MonoBehaviour {
 	}
     private void TapHandler(TappedEventArgs obj)
     {
-        tapsCount++;
-        ResultsLabel.instance.CreateLabel();
-        ExecuteImageCaptureAndAnalysis();
+        if (currentlyCapturing == false)
+        {
+            currentlyCapturing = true;
+            tapsCount++;
+            ResultsLabel.instance.CreateLabel();
+            ExecuteImageCaptureAndAnalysis();
+        }
     }
 	void OnCapturePhotoToDisk(PhotoCapture.PhotoCaptureResult result)
     {
@@ -66,6 +71,7 @@ public class ImageCapture : MonoBehaviour {
                 VisionManager.instance.imagePath = filepath;
                 Debug.Log("Saving Photo into file:" + filepath);
                 photoCaptureObject.TakePhotoAsync(filepath, PhotoCaptureFileOutputFormat.JPG, OnCapturePhotoToDisk);
+                currentlyCapturing = false;
             }
             );
 
