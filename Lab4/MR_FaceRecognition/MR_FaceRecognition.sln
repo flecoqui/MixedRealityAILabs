@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MR_FaceRecognition", "MR_FaceRecognition.csproj", "{D00BC6DF-D794-29B4-E344-57F7BF0333BD}"
 EndProject
 Global

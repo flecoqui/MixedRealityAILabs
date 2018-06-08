@@ -547,7 +547,7 @@ PlayerSettings:
     Metro: 2
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
-  scriptingRuntimeVersion: 0
+  scriptingRuntimeVersion: 1
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
@@ -586,17 +586,17 @@ PlayerSettings:
       InternetClientServer: False
       Location: False
       Microphone: False
-      MusicLibrary: False
+      MusicLibrary: True
       Objects3D: False
       PhoneCall: False
-      PicturesLibrary: False
+      PicturesLibrary: True
       PrivateNetworkClientServer: False
       Proximity: False
       RemovableStorage: False
       SharedUserCertificates: False
       SpatialPerception: False
       UserAccountInformation: False
-      VideosLibrary: False
+      VideosLibrary: True
       VoipCall: False
       WebCam: True
   metroFTAName: 
@@ -657,7 +657,7 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled: {}
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 
   projectName: 
   organizationId: 

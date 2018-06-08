@@ -124,8 +124,7 @@ GameObject:
   - component: {fileID: 894748332}
   - component: {fileID: 894748331}
   - component: {fileID: 894748330}
-  - component: {fileID: 894748335}
-  - component: {fileID: 894748334}
+  - component: {fileID: 894748336}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -177,7 +176,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -196,7 +195,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &894748334
+--- !u!114 &894748336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -204,24 +203,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 894748329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0dadd6c47a2fa4aaa4decae38afcfc, type: 3}
+  m_Script: {fileID: 11500000, guid: f04bd158eb8967749bb3e870e08b2061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tapsCount: 0
---- !u!114 &894748335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 894748329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a45ed80da9671d409ed1f8193cf8197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  labelText: {fileID: 1573471256}
-  imageBytes: 
-  imagePath: 
 --- !u!1 &1557441796
 GameObject:
   m_ObjectHideFlags: 0
