@@ -63,9 +63,9 @@ public class VisionManager : MonoBehaviour {
 
                     jsonResponse = www.downloadHandler.text;
 
-                    using (Stream stream = GenerateStreamFronString(jsonResponse))
-                    {
-                        StreamReader reader = new StreamReader(stream);
+                   // using (Stream stream = GenerateStreamFronString(jsonResponse))
+                   // {
+                     //   StreamReader reader = new StreamReader(stream);
                         AnalyseObject analyseObject = new AnalyseObject();
                         analyseObject = JsonUtility.FromJson<AnalyseObject>(jsonResponse);
                         if (analyseObject.tags == null)
@@ -85,7 +85,7 @@ public class VisionManager : MonoBehaviour {
                             ResultsLabel.instance.SetTagsToLastLabel(tagsDictionary);
                         }
 
-                    }
+                   // }
 
                 }
                 catch (System.Exception e)
