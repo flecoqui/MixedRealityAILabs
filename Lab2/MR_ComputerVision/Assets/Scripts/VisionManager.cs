@@ -27,7 +27,7 @@ public class AnalyseObject
 
 public class VisionManager : MonoBehaviour {
     public static VisionManager instance;
-    private string AuthorizationKey = "2a5cf0e3513543b4ab321f4466379612";
+    private string AuthorizationKey = "5c597973ace54c8284517eabf51f51e5";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
     private string visionAnalysisEndPoint = "https://northeurope.api.cognitive.microsoft.com/vision/v1.0/analyze?visualfeatures=Tags";
     //private string visionAnalysisEndPoint = "https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualfeatures=Tags";
